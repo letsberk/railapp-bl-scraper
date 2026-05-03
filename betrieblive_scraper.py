@@ -189,7 +189,12 @@ status = "beendet" if any(x in s for x in ["close","end","beend","resolve"])    
 
 # Priorität
 combined = (bst + kategorie).lower()
-prio = "hoch"   if any(x in combined for x in ["sperrung","unfall","groß","vollsp"])       else "mittel" if any(x in combined for x in ["störung","einschränkung","signal","bü"])       else "normal"
+if any(x in combined for x in ["sperrung","unfall","gross","vollsp"]):
+    prio = "hoch"
+elif any(x in combined for x in ["stoerung","storung","einschr","signal","bu","bue"]):
+    prio = "mittel"
+else:
+    prio = "normal"
 
 ts = str(
     raw.get("created_at") or raw.get("timestamp") or raw.get("createdAt") or
